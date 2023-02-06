@@ -1,0 +1,44 @@
+---
+import MainLayout from "../../layouts/Main.Layout.astro";
+import Footer from "../../components/Footer.astro";
+
+import Saludar from "../../components/Button";
+
+// se puede usar directamente el await
+// no encesita el async
+const response = await fetch("https://rickandmortyapi.com/api/character") ;
+const data = await response.json();
+
+// almacena los resultados
+const characters = data.results; 
+
+interface Character {
+    name: string;
+    image: string;
+}
+---
+<MainLayout>
+    <h2>Users</h2>
+    <ul>   
+        {
+            characters.map((character:Character)=>(
+                <li>
+                    <h2>{character.name}</h2>
+                    <img src={character.image} class="image-profile">
+
+                    <Saludar client:load  />
+                </li>
+            ))      
+        }
+    </ul>
+    <Footer title={"El Footer"}></Footer>
+</MainLayout>
+
+<style>
+
+    .image-profile {
+        width: 50px;
+        border-radius: 50%;
+    }
+
+</style>
